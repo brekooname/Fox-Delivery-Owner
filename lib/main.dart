@@ -21,6 +21,7 @@ late AndroidNotificationChannel channel;
 late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
 void main() async{
+  //new
   // WidgetsFlutterBinding.ensureInitialized();
   // internetConnection = await InternetConnectionChecker().hasConnection;
   // await Firebase.initializeApp(
