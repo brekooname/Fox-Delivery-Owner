@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "1089661998843",
+    "project_id": "fox-delivery-7e1b5",
+    "storage_bucket": "fox-delivery-7e1b5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1089661998843:android:e5230426c0779dcf93025e",
+        "android_client_info": {
+          "package_name": "com.example.fox_delivery"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1089661998843-0q01pul8mit4q6ltvoacjbhm7lh6epvq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fox_delivery",
+            "certificate_hash": "e22a778ca4b50b8fd1e72369e1f27dd2a629496b"
+          }
+        },
+        {
+          "client_id": "1089661998843-qmuo4cigol8mltmdv460q6k1ornt7pcg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCj51L74LtNeCMJvWpU7YUzXBWjkb8_gzE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1089661998843-qmuo4cigol8mltmdv460q6k1ornt7pcg.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1089661998843-lg62rn8hl4dggcqp8p106d0g8o3jp8sr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.foxDelivery"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1089661998843:android:910c225f7c4877e693025e",
+        "android_client_info": {
+          "package_name": "com.example.fox_delivery_owner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1089661998843-qstnr46qa6raki9qdk4ho629e3rvf1tn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fox_delivery_owner",
+            "certificate_hash": "e22a778ca4b50b8fd1e72369e1f27dd2a629496b"
+          }
+        },
+        {
+          "client_id": "1089661998843-qmuo4cigol8mltmdv460q6k1ornt7pcg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCj51L74LtNeCMJvWpU7YUzXBWjkb8_gzE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1089661998843-qmuo4cigol8mltmdv460q6k1ornt7pcg.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1089661998843-lg62rn8hl4dggcqp8p106d0g8o3jp8sr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.foxDelivery"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
