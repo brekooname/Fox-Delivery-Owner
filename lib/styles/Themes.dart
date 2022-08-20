@@ -50,17 +50,17 @@ var dropDownMenuColor = thirdDefaultColor;
 ThemeData lightTheme = ThemeData(
   textTheme: TextTheme(
       bodyText1: TextStyle(
-        fontSize: 30.0,
+        fontSize: 20.0,
         fontWeight: FontWeight.bold,
         color: defaultColor,
       ),
       subtitle1: TextStyle(
-          fontSize: 14.0,
+          fontSize: 20.0,
           fontWeight: FontWeight.w600,
           color: Colors.white,
           height: 1.3),
       bodyText2: TextStyle(
-          fontSize: 20.0, fontWeight: FontWeight.w600, color: defaultColor)),
+          fontSize: 15.0, fontWeight: FontWeight.w600, color: defaultColor)),
   primarySwatch: Colors.blue,
   floatingActionButtonTheme:
   FloatingActionButtonThemeData(backgroundColor: defaultColor),

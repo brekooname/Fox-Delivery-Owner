@@ -1,6 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.fox_delivery_owner">
-   <application
+    <uses-permission android:name="android.permissions.INTERNET"/>
+    <uses-permission android:name="android.permissions.VIBRATE"/>
+    <uses-permission android:name="android.permissions.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />   <application
         android:label="fox_delivery_owner"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
