@@ -16,8 +16,8 @@ class PackageContent extends StatelessWidget {
 
   PackageContent(
       {required this.package,
-        required this.packageIndex,
-        required this.fromTracking});
+      required this.packageIndex,
+      required this.fromTracking});
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +48,7 @@ class PackageContent extends StatelessWidget {
                             color: Colors.grey[300],
                             borderRadius: BorderRadius.circular(15.0),
                           ),
+                          height: Get.height * 0.25,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Column(
@@ -56,14 +57,14 @@ class PackageContent extends StatelessWidget {
                                 CircleAvatar(
                                   radius: 50,
                                   backgroundColor: secondDefaultColor,
-                                  backgroundImage:
-                                  AssetImage('assets/images/package3.png'),
+                                  backgroundImage: const AssetImage(
+                                      'assets/images/package3.png'),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
                                 Row(
-                                  textDirection:  TextDirection.ltr,
+                                  textDirection: TextDirection.ltr,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
@@ -83,7 +84,7 @@ class PackageContent extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10.0,
                                 ),
                                 Row(
@@ -95,26 +96,25 @@ class PackageContent extends StatelessWidget {
                                           .textTheme
                                           .bodyText2!
                                           .copyWith(
-                                          color: secondDefaultColor,
-                                          fontSize: 16),
+                                              color: secondDefaultColor,
+                                              fontSize: 16),
                                     ),
                                     Text(
                                       ': ${
                                       // userPackages[packageIndex]
-                                          package.packageId!}',
+                                      package.packageId!}',
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyText2!
                                           .copyWith(
-                                          color: secondDefaultColor,
-                                          fontSize: 16),
+                                              color: secondDefaultColor,
+                                              fontSize: 16),
                                     ),
                                   ],
                                 )
                               ],
                             ),
                           ),
-                          height: Get.height * 0.25,
                         ),
                       ),
                     )
@@ -134,7 +134,7 @@ class PackageContent extends StatelessWidget {
                       Table(
                         textBaseline: TextBaseline.alphabetic,
                         border: TableBorder.symmetric(
-                            inside: BorderSide(color: Colors.white)),
+                            inside: const BorderSide(color: Colors.white)),
                         children: [
                           buildTableRow('package_id'.tr,
                               "${/*userPackages[packageIndex]*/ package.packageId}"),
@@ -174,49 +174,46 @@ class PackageContent extends StatelessWidget {
                             SizedBox(
                               width: 10,
                             ),
-                          // if (/*userPackages[packageIndex]*/ package.status ==
-                          //     'New')
-                          //   Expanded(
-                          //     child: defaultButton(
-                          //         text: 'Cancel Order',
-                          //         fun: () {
-                          //           FoxCubit.get(context).cancelOrder(
-                          //               fromTracking: fromTracking,
-                          //               context: context,
-                          //               idNumber: packageIndex,
-                          //               id: packagesID[packageIndex],
-                          //               clientFirstName: /*userPackages[packageIndex]*/ package
-                          //                   .clientFirstName!,
-                          //               clientLastName:
-                          //               /*userPackages[packageIndex]*/ package
-                          //                   .clientLastName!,
-                          //               clientUid:
-                          //               /*userPackages[packageIndex]*/ package
-                          //                   .clientUid!,
-                          //               dateTime: /*userPackages[packageIndex]*/ package
-                          //                   .dateTime!,
-                          //               dateTimeDisplay:
-                          //               /*userPackages[packageIndex]*/ package
-                          //                   .dateTimeDisplay!,
-                          //               description:
-                          //               /*userPackages[packageIndex]*/ package
-                          //                   .description!,
-                          //               fromLocation:
-                          //               /*userPackages[packageIndex]*/ package
-                          //                   .fromLocation!,
-                          //               toLocation:
-                          //               /*userPackages[packageIndex]*/ package
-                          //                   .toLocation!,
-                          //               packageId:
-                          //               /*userPackages[packageIndex]*/ package
-                          //                   .packageId!,
-                          //               packageName:
-                          //               /*userPackages[packageIndex]*/ package
-                          //                   .packageName!);
-                          //         },
-                          //         backgroundColor: Colors.amber,
-                          //         TextColor: Colors.white),
-                          //   )
+                          Expanded(
+                            child: defaultButton(
+                                text: 'Complete Order',
+                                fun: () {
+                                  FoxCubit.get(context).completeOrder(
+                                      context: context,
+                                      idNumber: packageIndex,
+                                      id: packagesID[packageIndex],
+                                      clientFirstName: /*userPackages[packageIndex]*/ package
+                                          .clientFirstName!,
+                                      clientLastName:
+                                          /*userPackages[packageIndex]*/ package
+                                              .clientLastName!,
+                                      clientUid:
+                                          /*userPackages[packageIndex]*/ package
+                                              .clientUid!,
+                                      dateTime: /*userPackages[packageIndex]*/ package
+                                          .dateTime!,
+                                      dateTimeDisplay:
+                                          /*userPackages[packageIndex]*/ package
+                                              .dateTimeDisplay!,
+                                      description:
+                                          /*userPackages[packageIndex]*/ package
+                                              .description!,
+                                      fromLocation:
+                                          /*userPackages[packageIndex]*/ package
+                                              .fromLocation!,
+                                      toLocation:
+                                          /*userPackages[packageIndex]*/ package
+                                              .toLocation!,
+                                      packageId:
+                                          /*userPackages[packageIndex]*/ package
+                                              .packageId!,
+                                      packageName:
+                                          /*userPackages[packageIndex]*/ package
+                                              .packageName!);
+                                },
+                                backgroundColor: Colors.amber,
+                                TextColor: Colors.white),
+                          )
                         ],
                       ),
                     ],

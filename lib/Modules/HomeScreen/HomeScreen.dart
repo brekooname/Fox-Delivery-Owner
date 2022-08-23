@@ -3,8 +3,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fox_delivery_owner/shared/cubit/cubit.dart';
 import 'package:fox_delivery_owner/shared/cubit/states.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    FoxCubit.get(context).getOrders();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

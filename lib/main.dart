@@ -6,11 +6,9 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fox_delivery_owner/Modules/HomeScreen/HomeScreen.dart';
 import 'package:fox_delivery_owner/shared/BlocObserver/BlocObserver.dart';
 import 'package:fox_delivery_owner/shared/components/components.dart';
-import 'package:fox_delivery_owner/shared/constants/constants.dart';
 import 'package:fox_delivery_owner/shared/cubit/cubit.dart';
 import 'package:fox_delivery_owner/shared/cubit/states.dart';
 import 'package:fox_delivery_owner/styles/Themes.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 import 'firebase_options.dart';
 
@@ -61,7 +59,7 @@ class MyApp extends StatelessWidget {
             title: 'Flutter Demo',
             themeMode: ThemeMode.light,
             theme: lightTheme,
-            home: const HomeScreen(),
+            home: HomeScreen(),
           );
         },
       ),
