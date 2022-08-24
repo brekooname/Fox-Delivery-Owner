@@ -12,7 +12,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
-    FoxCubit.get(context).getOrders();
+    FoxCubit.get(context).checkConnection();
     super.initState();
   }
 

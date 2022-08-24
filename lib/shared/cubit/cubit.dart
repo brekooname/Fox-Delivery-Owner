@@ -3,10 +3,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fox_delivery_owner/Models/PackageModels.dart';
 import 'package:fox_delivery_owner/Modules/AllOrdersScreen/AllOrdersScreen.dart';
+import 'package:fox_delivery_owner/Modules/Offers/Offers.dart';
 import 'package:fox_delivery_owner/Modules/OrdersScreen/OrdersScreen.dart';
+import 'package:fox_delivery_owner/Modules/Problems/Problems.dart';
 import 'package:fox_delivery_owner/shared/components/components.dart';
 import 'package:fox_delivery_owner/shared/cubit/states.dart';
 import 'package:flutter/material.dart';
+import 'package:fox_delivery_owner/styles/Themes.dart';
 import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:intl/intl.dart';
@@ -23,11 +26,15 @@ class FoxCubit extends Cubit<FoxStates> {
   List<Widget> screen = [
     OrdersScreen(),
     AllOrderScreen(),
+    Offers(),
+    Problems(),
   ];
 
   List<BottomNavigationBarItem> bottomItems = [
     const BottomNavigationBarItem(icon: Icon(Icons.backpack), label: 'Orders'),
     const BottomNavigationBarItem(icon: Icon(Icons.border_all), label: 'All Orders'),
+    const BottomNavigationBarItem(icon: Icon(Icons.local_offer), label: 'Offers'),
+    const BottomNavigationBarItem(icon: Icon(Icons.bug_report_outlined), label: 'Problems'),
   ];
 
   void changeBottomNavBar(int index) {
@@ -37,8 +44,13 @@ class FoxCubit extends Cubit<FoxStates> {
 
   DateTime selectedDay = DateTime.now();
 
-  void getOrders() {
-    emit(FoxGetOrdersLoadingState());
+  void getOrders({
+    BuildContext? context,
+  bool fromCompleteOrder = false
+}) {
+    if(fromCompleteOrder == false){
+      emit(FoxGetOrdersLoadingState());
+    }
     orders = [];
     FirebaseFirestore.instance
         .collection('packages')
@@ -48,13 +60,38 @@ class FoxCubit extends Cubit<FoxStates> {
       for (var element in value.docs) {
         orders.add(PackageModel.fromJson(element.data()));
         packagesID.add(element.id);
-
       }
-      setSelectedDate(newDate: DateTime.now());
+      setSelectedDate(newDate: DateTime.now(),fromGetOrders: true);
+      if(fromCompleteOrder == true){
+        Navigator.pop(context!);
+      }
       emit(FoxGetOrdersSuccessState());
+      // if(fromCompleteOrder == false){
+      //   emit(FoxGetOrdersSuccessState());
+      // }
     }).catchError((error) {
       emit(FoxGetOrdersErrorState());
     });
+  }
+
+  void setSelectedDate({
+    required DateTime newDate,
+    bool fromGetOrders = false,
+  }) {
+    if (!fromGetOrders) {
+      emit(FoxSetSelectedDateLoadingState());
+    }
+    selectedDay = newDate;
+    selectedOrders = [];
+    for (var element in orders) {
+      if (isSameTime(date1: element.dateTime!, date2: selectedDay)) {
+        selectedOrders.add(element);
+      }
+    }
+
+    if (!fromGetOrders) {
+      emit(FoxSetSelectedDateSuccessState());
+    }
   }
 
   void goToToday() {
@@ -65,7 +102,7 @@ class FoxCubit extends Cubit<FoxStates> {
   void checkConnection() async {
     internetConnection = await InternetConnectionChecker().hasConnection;
     if (internetConnection) {
-      getOrders();;
+      getOrders();
       // getPackagesNumber();
     } else {
       Get.snackbar('Fox Delivery', 'No Internet Connection',
@@ -75,7 +112,6 @@ class FoxCubit extends Cubit<FoxStates> {
 
   void completeOrder({
     required BuildContext context,
-    required int idNumber,
     required String id,
     required String clientFirstName,
     required String clientLastName,
@@ -88,6 +124,7 @@ class FoxCubit extends Cubit<FoxStates> {
     required int packageId,
     required String packageName,
   }) {
+    emit(FoxCompleteOrderLoadingState());
     FirebaseFirestore.instance.collection('packages').doc(id).update({
       'clientFirstName': clientFirstName,
       'clientLastName': clientLastName,
@@ -101,9 +138,11 @@ class FoxCubit extends Cubit<FoxStates> {
       'packageName': packageName,
       'status': 'Completed',
     }).then((value) {
-      getOrders();
-      showToast(msg: 'The order is Completed');
+      getOrders(fromCompleteOrder: true, context: context);
+      showToast(msg: 'The order is Completed',color: buttonColor, textColor: Colors.white);
+      // emit(FoxCompleteOrderSuccessState());
     }).catchError((error) {
+      showToast(msg: 'Error', color: Colors.red, textColor: Colors.white);
       print("Error while complete order ====> ${error.toString()}");
       emit(FoxCompleteOrderErrorState());
     });
@@ -123,24 +162,5 @@ class FoxCubit extends Cubit<FoxStates> {
     }
   }
 
-  void setSelectedDate({
-    required DateTime newDate,
-    bool fromStart = false,
-    bool fromGetOrders = false,
-  }) {
-    if (!fromGetOrders) {
-      emit(FoxSetSelectedDateLoadingState());
-    }
-    selectedDay = newDate;
-    selectedOrders = [];
-    for (var element in orders) {
-      if (isSameTime(date1: element.dateTime!, date2: selectedDay)) {
-        selectedOrders.add(element);
-      }
-    }
 
-    if (!fromGetOrders) {
-      emit(FoxSetSelectedDateSuccessState());
-    }
-  }
 }

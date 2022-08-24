@@ -4,3 +4,4 @@ bool internetConnection = true;
 List<PackageModel> selectedOrders = [];
 List<PackageModel> orders = [];
 List<String> packagesID = [];
+List<String> selectedPackagesID = [];

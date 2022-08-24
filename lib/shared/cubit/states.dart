@@ -10,4 +10,6 @@ class FoxGetOrdersLoadingState extends FoxStates{}
 class FoxGetOrdersSuccessState extends FoxStates{}
 class FoxGetOrdersErrorState extends FoxStates{}
 
+class FoxCompleteOrderLoadingState extends FoxStates{}
+class FoxCompleteOrderSuccessState extends FoxStates{}
 class FoxCompleteOrderErrorState extends FoxStates{}

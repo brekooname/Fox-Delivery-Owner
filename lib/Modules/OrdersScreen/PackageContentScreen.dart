@@ -169,51 +169,34 @@ class PackageContent extends StatelessWidget {
                                 TextColor: Colors.white,
                                 backgroundColor: buttonColor),
                           ),
-                          if (/*userPackages[packageIndex]*/ package.status ==
-                              'New')
+                          if (package.status == 'New')
                             SizedBox(
                               width: 10,
                             ),
-                          Expanded(
-                            child: defaultButton(
-                                text: 'Complete Order',
-                                fun: () {
-                                  FoxCubit.get(context).completeOrder(
-                                      context: context,
-                                      idNumber: packageIndex,
-                                      id: packagesID[packageIndex],
-                                      clientFirstName: /*userPackages[packageIndex]*/ package
-                                          .clientFirstName!,
-                                      clientLastName:
-                                          /*userPackages[packageIndex]*/ package
-                                              .clientLastName!,
-                                      clientUid:
-                                          /*userPackages[packageIndex]*/ package
-                                              .clientUid!,
-                                      dateTime: /*userPackages[packageIndex]*/ package
-                                          .dateTime!,
-                                      dateTimeDisplay:
-                                          /*userPackages[packageIndex]*/ package
-                                              .dateTimeDisplay!,
-                                      description:
-                                          /*userPackages[packageIndex]*/ package
-                                              .description!,
-                                      fromLocation:
-                                          /*userPackages[packageIndex]*/ package
-                                              .fromLocation!,
-                                      toLocation:
-                                          /*userPackages[packageIndex]*/ package
-                                              .toLocation!,
-                                      packageId:
-                                          /*userPackages[packageIndex]*/ package
-                                              .packageId!,
-                                      packageName:
-                                          /*userPackages[packageIndex]*/ package
-                                              .packageName!);
-                                },
-                                backgroundColor: Colors.amber,
-                                TextColor: Colors.white),
-                          )
+                          if (package.status == 'New')
+                            Expanded(
+                              child:state is FoxCompleteOrderLoadingState? Center(child: CircularProgressIndicator(color: buttonColor,)) : defaultButton(
+                                  text: 'Complete Order',
+                                  fun: () {
+                                    FoxCubit.get(context).completeOrder(
+                                        context: context,
+                                        id: package.packageId.toString(),
+                                        clientFirstName:
+                                            package.clientFirstName!,
+                                        clientLastName: package.clientLastName!,
+                                        clientUid: package.clientUid!,
+                                        dateTime: package.dateTime!,
+                                        dateTimeDisplay:
+                                            package.dateTimeDisplay!,
+                                        description: package.description!,
+                                        fromLocation: package.fromLocation!,
+                                        toLocation: package.toLocation!,
+                                        packageId: package.packageId!,
+                                        packageName: package.packageName!);
+                                  },
+                                  backgroundColor: Colors.amber,
+                                  TextColor: Colors.white),
+                            )
                         ],
                       ),
                     ],
