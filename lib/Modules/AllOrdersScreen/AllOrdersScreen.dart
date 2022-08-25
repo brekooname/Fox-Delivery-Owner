@@ -115,12 +115,13 @@ class _AllOrderScreenState extends State<AllOrderScreen> {
             children: [
               Expanded(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       model.packageName!,
-                      style: TextStyle(fontSize: 20),
+                      style: Theme.of(context).textTheme.bodyText1,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Text(model.dateTimeDisplay!,
@@ -129,7 +130,6 @@ class _AllOrderScreenState extends State<AllOrderScreen> {
                             .caption!
                             .copyWith(fontSize: 14))
                   ],
-                  crossAxisAlignment: CrossAxisAlignment.start,
                 ),
               ),
               Column(

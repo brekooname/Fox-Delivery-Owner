@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 
 var defaultColor = const Color(0xff5967a4);
 var secondDefaultColor = const Color(0xff0c1f40);
@@ -52,10 +51,10 @@ ThemeData lightTheme = ThemeData(
       bodyText1: TextStyle(
         fontSize: 20.0,
         fontWeight: FontWeight.bold,
-        color: defaultColor,
+        color: secondDefaultColor,
       ),
-      subtitle1: TextStyle(
-          fontSize: 20.0,
+      subtitle1: const TextStyle(
+          fontSize: 18.0,
           fontWeight: FontWeight.w600,
           color: Colors.white,
           height: 1.3),
