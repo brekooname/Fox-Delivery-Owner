@@ -8,3 +8,5 @@ List<PackageModel> orders = [];
 List<String> packagesID = [];
 List<String> selectedPackagesID = [];
 List<ProblemModel> problems = [];
+
+DateTime focusedDay = DateTime.now();

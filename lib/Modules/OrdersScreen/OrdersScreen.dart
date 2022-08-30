@@ -17,8 +17,6 @@ class OrdersScreen extends StatefulWidget {
 }
 
 class _OrdersScreenState extends State<OrdersScreen> {
-  DateTime focusedDay = DateTime.now();
-
   CalendarFormat calendarFormat = CalendarFormat.week;
 
   @override
@@ -29,6 +27,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
 
   @override
   Widget build(BuildContext context) {
+    focusedDay = DateTime.now();
     print(selectedOrders.length);
     return BlocConsumer<FoxCubit, FoxStates>(
       listener: (context, state) {},
@@ -88,15 +87,14 @@ class _OrdersScreenState extends State<OrdersScreen> {
                         return isSameDay(
                             FoxCubit.get(context).selectedDay, day);
                       },
-                      onDaySelected: (selectedDay, focusedDay) {
+                      onDaySelected: (selectedDay, focused) {
                         FoxCubit.get(context)
                             .setSelectedDate(newDate: selectedDay);
-                        // this.selectedDay = selectedDay;
-                        this.focusedDay =
-                            focusedDay; // update `_focusedDay` here as well
+                        focusedDay =
+                            focused; // update `_focusedDay` here as well
                       },
-                      onPageChanged: (focusedDay) {
-                        focusedDay = focusedDay;
+                      onPageChanged: (focused) {
+                        focusedDay = focused;
                       },
                       calendarFormat: calendarFormat,
                       daysOfWeekHeight: 50,
@@ -112,9 +110,16 @@ class _OrdersScreenState extends State<OrdersScreen> {
                         ),
                       ),
                       calendarStyle: CalendarStyle(
+                          outsideTextStyle: const TextStyle(
+                            color: Colors.black,
+                          ),
+                          outsideDecoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20.0)),
                           weekendTextStyle:
                               const TextStyle(color: Colors.black),
-                          defaultTextStyle: TextStyle(color: Colors.black),
+                          defaultTextStyle:
+                              const TextStyle(color: Colors.black),
                           holidayTextStyle:
                               const TextStyle(color: Colors.black),
                           selectedTextStyle: TextStyle(
@@ -146,12 +151,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
                 state is FoxGetOrdersLoadingState ||
                         state is FoxSetSelectedDateLoadingState
                     ? Expanded(
-                      child: Center(
-                          child: CircularProgressIndicator(
-                            backgroundColor: secondDefaultColor,
+                        child: Center(
+                            child: CircularProgressIndicator(
+                          backgroundColor: secondDefaultColor,
                           color: Colors.white,
                         )),
-                    )
+                      )
                     : Expanded(
                         child: Column(
                           children: [

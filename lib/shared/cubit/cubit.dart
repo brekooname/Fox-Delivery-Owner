@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fox_delivery_owner/Models/OfferModel.dart';
 import 'package:fox_delivery_owner/Models/PackageModels.dart';
 import 'package:fox_delivery_owner/Models/ProblemModel.dart';
 import 'package:fox_delivery_owner/Modules/AllOrdersScreen/AllOrdersScreen.dart';
@@ -12,7 +15,9 @@ import 'package:fox_delivery_owner/shared/cubit/states.dart';
 import 'package:flutter/material.dart';
 import 'package:fox_delivery_owner/styles/Themes.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 import '../constants/constants.dart';
 
@@ -190,5 +195,58 @@ class FoxCubit extends Cubit<FoxStates> {
     }).catchError((error) {
       emit(FoxGetProblemsErrorState());
     });
+  }
+
+  File? offerImage;
+  var picker = ImagePicker();
+
+  Future<void> getOfferImage() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      offerImage = File(pickedFile.path);
+      emit(FoxImagePickedSuccessState());
+    } else {
+      print("No image selected");
+      emit(FoxImagePickedErrorState());
+    }
+  }
+
+  void removeOfferImage() {
+    offerImage = null;
+    emit(FoxRemoveOfferImageState());
+  }
+
+  uploadOfferImage({
+    required String label,
+    required String body,
+  }) {
+    emit(FoxCreateOfferLoadingState());
+    firebase_storage.FirebaseStorage.instance
+        .ref()
+        .child('offers/${Uri.file(offerImage!.path).pathSegments.last}')
+        .putFile(offerImage!)
+        .then((value) {
+      value.ref.getDownloadURL().then((value) {
+        createOffer(label: label, body: body, offerImage: value);
+        offerImage = null;
+        emit(FoxCreateOfferSuccessState());
+      });
+    }).catchError((error) {
+      print("Error while creating offer >>>>> ${error.toString()}");
+      emit(FoxCreateOfferErrorState());
+    });
+  }
+
+  void createOffer(
+      {required String label,
+      required String body,
+      required String offerImage}) {
+    OfferModel model =
+        OfferModel(label: label, body: body, offerImage: offerImage);
+    FirebaseFirestore.instance
+        .collection('offers')
+        .add(model.toMap())
+        .then((value) {})
+        .catchError((error) {});
   }
 }
