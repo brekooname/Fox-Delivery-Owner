@@ -9,6 +9,7 @@ import 'package:fox_delivery_owner/shared/components/components.dart';
 import 'package:fox_delivery_owner/shared/cubit/cubit.dart';
 import 'package:fox_delivery_owner/shared/cubit/states.dart';
 import 'package:fox_delivery_owner/styles/Themes.dart';
+import 'package:get/get.dart';
 
 import 'firebase_options.dart';
 
@@ -54,7 +55,7 @@ class MyApp extends StatelessWidget {
       child: BlocConsumer<FoxCubit, FoxStates>(
         listener: (context,state){},
         builder: (context, state){
-          return MaterialApp(
+          return GetMaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Flutter Demo',
             themeMode: ThemeMode.light,

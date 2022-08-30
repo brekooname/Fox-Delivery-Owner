@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fox_delivery_owner/shared/components/components.dart';
+import 'package:fox_delivery_owner/shared/constants/constants.dart';
 import 'package:fox_delivery_owner/shared/cubit/cubit.dart';
 import 'package:fox_delivery_owner/shared/cubit/states.dart';
 import 'package:fox_delivery_owner/styles/Themes.dart';
+import 'package:get/get.dart';
 
 class Offers extends StatelessWidget {
   var labelController = TextEditingController();
@@ -14,7 +16,15 @@ class Offers extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<FoxCubit, FoxStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is FoxCreateOfferSuccessState) {
+          labelController.text = '';
+          bodyController.text = '';
+          Get.snackbar(
+              'Fox Delivery', 'Offer is created', colorText: Colors.white,
+              backgroundColor: thirdDefaultColor);
+        }
+      },
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
@@ -59,7 +69,9 @@ class Offers extends StatelessWidget {
                         const SizedBox(
                           height: 10.0,
                         ),
-                        if (FoxCubit.get(context).offerImage != null)
+                        if (FoxCubit
+                            .get(context)
+                            .offerImage != null)
                           Stack(
                             children: [
                               Container(
@@ -68,8 +80,10 @@ class Offers extends StatelessWidget {
                                 decoration: BoxDecoration(
                                     image: DecorationImage(
                                         image: FileImage(
-                                                FoxCubit.get(context).offerImage!)
-                                            as ImageProvider)),
+                                            FoxCubit
+                                                .get(context)
+                                                .offerImage!)
+                                        as ImageProvider)),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -77,7 +91,8 @@ class Offers extends StatelessWidget {
                                   radius: 16,
                                   child: IconButton(
                                       onPressed: () {
-                                        FoxCubit.get(context).removeOfferImage();
+                                        FoxCubit.get(context)
+                                            .removeOfferImage();
                                       },
                                       icon: const Icon(
                                         Icons.close,
@@ -91,18 +106,44 @@ class Offers extends StatelessWidget {
                         const SizedBox(
                           height: 10.0,
                         ),
-                        defaultButton(
+                        state is FoxCreateOfferLoadingState ? const Center(
+                            child: CircularProgressIndicator()) : defaultButton(
                             text: 'Create Offer',
                             fun: () {
-                              if(formKey.currentState!.validate() && FoxCubit.get(context).offerImage != null){
-                                FoxCubit.get(context).uploadOfferImage(
-                                    label: labelController.text,
-                                    body: bodyController.text);
-                              }
+                              FoxCubit.get(context)
+                                  .checkConnectionReturn()
+                                  .then((value) {
+                                if (internetConnection) {
+                                  if (formKey.currentState!.validate() &&
+                                      FoxCubit
+                                          .get(context)
+                                          .offerImage != null) {
+                                    FoxCubit.get(context).uploadOfferImage(
+                                        label: labelController.text,
+                                        body: bodyController.text);
+                                  }
+                                } else {
+                                  Get.snackbar(
+                                      'Fox Delivery', 'No internet connection',
+                                      backgroundColor: Colors.red,
+                                      colorText: Colors.white);
+                                }
+                              });
                             },
                             backgroundColor: buttonColor,
                             borderRadius: 5.0,
-                            TextColor: Colors.white)
+                            TextColor: Colors.white),
+                        const SizedBox(
+                          height: 10.0,
+                        ),
+                        defaultButton(
+                            text: 'Delete Offer',
+                            fun: () {
+                              FoxCubit.get(context).deleteOffer();
+                            },
+                            backgroundColor: Colors.red,
+                            borderRadius: 5.0,
+                            TextColor: Colors.white),
                       ],
                     ),
                   ),

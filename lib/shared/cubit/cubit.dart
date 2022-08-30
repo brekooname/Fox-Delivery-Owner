@@ -20,6 +20,8 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 import '../constants/constants.dart';
+import '../network/EndPoint.dart';
+import '../network/remote/dio_helper.dart';
 
 class FoxCubit extends Cubit<FoxStates> {
   FoxCubit() : super(FoxInitialState());
@@ -121,6 +123,14 @@ class FoxCubit extends Cubit<FoxStates> {
     } else {
       Get.snackbar('Fox Delivery', 'No Internet Connection',
           colorText: Colors.white, backgroundColor: Colors.red);
+    }
+  }
+  Future<bool> checkConnectionReturn()async{
+    internetConnection = await InternetConnectionChecker().hasConnection;
+    if (internetConnection) {
+      return true;
+    } else {
+      return false;
     }
   }
 
@@ -244,9 +254,48 @@ class FoxCubit extends Cubit<FoxStates> {
     OfferModel model =
         OfferModel(label: label, body: body, offerImage: offerImage);
     FirebaseFirestore.instance
-        .collection('offers')
-        .add(model.toMap())
-        .then((value) {})
+        .collection('offers').doc('1')
+        .set(model.toMap())
+        .then((value) {
+
+    })
         .catchError((error) {});
+  }
+
+  void deleteOffer(){
+    FirebaseFirestore.instance.collection('offers').doc('1').delete().then((value){
+      Get.snackbar('Fox Delivery', 'The offer is deleted', backgroundColor: Colors.red,colorText: Colors.white);
+    }).catchError((error){
+      print('error while delete offer >>>>> ${error.toString()}');
+    });
+  }
+
+  void sendNotification({
+    required String receiverToken,
+    required String title,
+    required String body,
+  }) {
+    DioHelper.postData(token: serverKey, url: SEND_NOTIFICATION, data: {
+      "to": receiverToken,
+      "notification": {"title": title, "body": body, "sound": "default"},
+      "android": {
+        "priority": "HIGH",
+        "notification": {
+          "notification_priority": "PRIORITY_MAX",
+          "sound": "default",
+          "default_sound": true,
+          "default_vibrate_timings": true,
+          "default_light_settings": true,
+        }
+      },
+      "date": {
+        "type": "order",
+        "id": "1",
+        "click_action": "FLUTTER_NOTIFICATION_CLICK"
+      }
+    }).then((value) {}).catchError((error) {
+      showToast(msg: 'Notification');
+      print(error.toString());
+    });
   }
 }
